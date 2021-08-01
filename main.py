@@ -1,26 +1,38 @@
 import tkinter as tk
 
-window = tk.Tk()
+class MineSweeper:
+    
+    window = tk.Tk()
+    COLUMNS = 10
+    ROW = 10
+
+    def __init__(self):
+        self.buttons = []
+        for i in range(MineSweeper.ROW):
+            temp = []
+            for j in range(MineSweeper.COLUMNS):
+                btn = tk.Button(MineSweeper.window, font='Calibri 15 bold')
+                temp.append(btn)
+        self.buttons.append(temp)
 
 
-ROW = 5
-COLUMNS = 7
+    def create_widgets(self):
+        for i in range(MineSweeper.ROW):
+            for j in range(MineSweeper.COLUMNS):
+                btn = self.buttons[i][j]
+                btn.grid(row=i,column=j)
 
-buttons = []
-for i in range(ROW):
-    temp = []
-    for j in range(COLUMNS):
-        btn = tk.Button(window)
-        temp.append(btn)
-    buttons.append(temp)
+    
+    def start(self):
+        MineSweeper.window.mainloop()
 
-for i in range(ROW):
-    temp = []
-    for j in range(COLUMNS):
-        btn = buttons[i][j]
-        btn.grid(row=i,column=j)
 
-for h in buttons:
+
+
+game = MineSweeper()
+game.create_widgets()
+
+for h in game.buttons:
     print(h)
 
-window.mainloop()
+game.start()
