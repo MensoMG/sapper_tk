@@ -12,7 +12,7 @@ class MyButton(tk.Button):
         self.is_mine = False
 
     def __repr__(self):
-        return f'MyButton ({self.x} {self.y}) - {self.number}'
+        return f'MyButton ({self.x} {self.y}) - {self.number} {self.is_mine}'
 
 
 class MineSweeper:
@@ -46,10 +46,18 @@ class MineSweeper:
         MineSweeper.window.mainloop()
 
     def print_buttons(self):
-        for i in game.buttons:
+        for i in self.buttons:
             print(i)
 
-    def get_mines_places(self):
+    def insert_mines(self):
+        index_mines = self.get_mines_places()
+        print(index_mines)
+        for row_btn in self.buttons:
+             for btn in row_btn:
+                 if btn.number in index_mines:
+                     btn.is_mine = True
+    @staticmethod
+    def get_mines_places():
         pos_mines = list(range(1, MineSweeper.ROW*MineSweeper.COLUMNS+1))
         shuffle(pos_mines)
         return(pos_mines[:MineSweeper.MINES])
