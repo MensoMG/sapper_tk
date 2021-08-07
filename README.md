@@ -1,1 +1,1 @@
-# ManeSweeperGame
+# MineSweeperGame
