@@ -44,18 +44,22 @@ class MineSweeper:
             self.buttons.append(temp)
   
     def click(self, clicked_button: MyButton): 
+        if MineSweeper.GAME_OVER:
+            return None
+
         if MineSweeper.FIRST_CLICK:
-            self.insert_mines(clicked_button.MINES)
+            self.insert_mines(clicked_button.number)
             self.count_mines_in_buttons()
             self.print_buttons()
+            MineSweeper.FIRST_CLICK = False
 
         if clicked_button.is_mine:
             clicked_button.config(text='*', background='red', disabledforeground='black')
             clicked_button.is_open = True
             MineSweeper.GAME_OVER = True
             showinfo('Game over','You died')
-            for i in range(1, MineSweeper.ROW+2):
-                for j in range(1, MineSweeper.COLUMNS+2):
+            for i in range(1, MineSweeper.ROW+1):
+                for j in range(1, MineSweeper.COLUMNS+1):
                     btn = self.buttons[i][j]
                     if btn.is_mine:
                         btn['text'] = '*'
@@ -97,12 +101,13 @@ class MineSweeper:
 
     def create_widgets(self):
         count = 1
-        for i in range(1, MineSweeper.ROW+2):
-            for j in range(1, MineSweeper.COLUMNS+2):
+        for i in range(1, MineSweeper.ROW + 1):
+            for j in range(1, MineSweeper.COLUMNS + 1):
                 btn = self.buttons[i][j]
                 btn.number = count
                 btn.grid(row=i, column=j)
                 count += 1
+
     def open_all_buttons(self):
         for i in range(MineSweeper.ROW+2):
             for j in range(MineSweeper.COLUMNS+2):
@@ -152,11 +157,11 @@ class MineSweeper:
 
     @staticmethod
     def get_mines_places(exclude_number: int):
-        indexes = list(range(1, MineSweeper.ROW*MineSweeper.COLUMNS+1))
+        indexes = list(range(1, MineSweeper.ROW * MineSweeper.COLUMNS + 1))
+        print(f'exclude button {exclude_number}')
         indexes.remove(exclude_number)
         shuffle(indexes)
         return(indexes[:MineSweeper.MINES])
 
 game = MineSweeper()
 game.start()
-
